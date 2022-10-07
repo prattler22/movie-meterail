@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>계좌상세조회</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+        * {
+            margin:0;
+            padding:0;
+            font:14px/1.25 'Noto Sans KR',Verdana,'돋움', Dotum, 'Apple sd gothic neo', 'Apple Gothic' ,Sans-serif;
+        }
+        button{
+            border: 0;
+            background: none;
+            color: inherit;
+        }
+
+        /* 제목영역 */
+        .title{
+            position: relative;
+            padding: 16px 24px;
+        }
+        .title--tit{
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .title--close{
+            position: absolute;
+            top:50%;
+            right: 24px;
+            width: 20px;
+            height: 20px;
+            transform: translateY(-50%);
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDYuMC1jMDA2IDc5LmRhYmFjYmIsIDIwMjEvMDQvMTQtMDA6Mzk6NDQgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCAyMi40IChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFNTFGNzA0NjQ1REUxMUVEOTIwOURCNzIzMjE1OTEyRSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFNTFGNzA0NzQ1REUxMUVEOTIwOURCNzIzMjE1OTEyRSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkU1MUY3MDQ0NDVERTExRUQ5MjA5REI3MjMyMTU5MTJFIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkU1MUY3MDQ1NDVERTExRUQ5MjA5REI3MjMyMTU5MTJFIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+95VdBgAAAmFJREFUeNpcVEuL+VEYPm4LK3eD0mQnSiiXRllb2ahp3EpKNEmuCx/CZ1DKpWTGJ1C+yGTLAuV+nf/DOx2/v3dxOt7zPs97e37YcDjs9/u/d7tcLnQ5nU5Cz/V6Fb7CqtXqZDKR/Pz89Ho9s9lstVoZY2KxGEFSqRQRIpEIMJy44+l8PkskksPhEIlExuOxXC5n6/X67e3NZDJ1Oh1OjAicx+MRAPLs93u6ZDIZg8Hw+fl5YwT3crl0Op0vLy+tVotgT6VSFyAKhUJarbZWq13uxih0s9n4fD48UH7C8CYpfzwe12g0+XyePA8wuGezWSAQQEntdptn3u12FJBMJtFauVxGJGBExyiITjRmt9vVanW3273ejXjD4bBKpapUKpyL/IwjiWy1WgWDQYSifvgxs1QqhXFQtRRM7SCecSaeB3iaH/Dv7+/YYrFY5GF8/reyn1bCuYHX6XQKhQJ6oPE86QQmxvZlMhm2T9MnbaB5v98PqUAJYMErnOxutyFz48UIkycSCeTEhGw2G4aM+cEJOT0lZ0IlH++GPlEwkETqdrvxs9ls8vn/B+ZLxyUajb6+vuZyOSKFf7vdOhwOo9E4GAyepvO3KnJ9fHxgycjJuwAjBEv58STU/yMzLBaL6fX6UqlEMM5I9/l8Dv0iAPU/wOBGeUAqlcpCoSBcprBC2GKxcLlc6B/fP+r/0zZ0C0nV63Xh8OhCShYSeb1epPn+/r5lTqfTQELxIBN+zFxzT/8t0+nU4/Fgfl9fX2LIMJvNNhoNkgGCIAkSA+kBgsEJwdzEzBjaHo1GFosF8/snwABLH2n4T0G3WQAAAABJRU5ErkJggg==');
+        }
+        /*// 제목영역 */
+
+        /* 요약정보 */
+        .summary{
+            position: relative;
+            padding:24px 18px;
+            background-color: #5e9ace;
+            color: #fff;
+        }
+        .summary--tit{
+            font-size: 18px;
+        }
+        .summary--info{
+            margin-top:10px;
+        }
+        .summary--info::after{
+            content: '';
+            clear: both;
+            display: block;
+        }
+        .summary--info__statements{
+            float: left;
+            font-weight: bold;
+        }
+        .summary--info__nums{
+            float: left;
+        }
+        .summary--info__nums::before{
+            content: '|';
+            margin:0 10px;
+        }
+        .summary--info__nums::after{
+            content: '';
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin-left: 8px;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDYuMC1jMDA2IDc5LmRhYmFjYmIsIDIwMjEvMDQvMTQtMDA6Mzk6NDQgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCAyMi40IChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo2QjBCREMzNjQ1REYxMUVEOTRFOUUwQUJEMTlDODgyRSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo2QjBCREMzNzQ1REYxMUVEOTRFOUUwQUJEMTlDODgyRSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjZCMEJEQzM0NDVERjExRUQ5NEU5RTBBQkQxOUM4ODJFIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjZCMEJEQzM1NDVERjExRUQ5NEU5RTBBQkQxOUM4ODJFIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+3XMY0AAAATBJREFUeNocT81LAkEc/c1vZlYdw/WriMBKSrp08FQERQoR1NE+/obo1r9Tp6iblPeCiOoSBJaHSKJ7SKHuzqq7zuw29E7vwfvgkdp5u+d207Y9kg6lFBH9wAfKY1xorbHvOLlM1nFcyhhBYgz8H2EYjpXCUpocbpYK3PMjHCjoDscmmxv/FuLe8X4ZHdedzEO1WjG1SSEmkoIiNemDvZVORyNBdt14WV6E1YUpS36L4U9a92q19SCA27t7NF7peRf15k5len5ulhDY3tqwONSvHkVCsC9IisjyZfD+0D7aXWq+xteKcHL6JC27qyMWsyzUoVKjVustm82UyzNnlzeMpnSoOeWMK0WA9dHuJVIfz538p3KhOAiHACAQGAGIICJgRg0FV0o/CAwzR4z8E2AAggJ30+UBXrwAAAAASUVORK5CYII=');
+        }
+        .summary--info__nums-arrow{
+            margin-left: 5px;
+        }        
+        .summary--mklink{
+            margin-top:10px;
+            padding:4px 6px;
+            border: 1px solid #fff;
+            border-radius: 5px;
+        }
+        .summary--more{
+            position: absolute;
+            top: 24px;
+            right: 20px;
+            width: 6px;
+            height: 22px;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAWCAIAAABseHqEAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDYuMC1jMDA2IDc5LmRhYmFjYmIsIDIwMjEvMDQvMTQtMDA6Mzk6NDQgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCAyMi40IChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpERjE5MEI3MDQ1RTAxMUVEQTE0NEVDQUI5RjI1MzgxRSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpERjE5MEI3MTQ1RTAxMUVEQTE0NEVDQUI5RjI1MzgxRSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkRGMTkwQjZFNDVFMDExRURBMTQ0RUNBQjlGMjUzODFFIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkRGMTkwQjZGNDVFMDExRURBMTQ0RUNBQjlGMjUzODFFIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+ldeGqAAAAZBJREFUeNoUj01PU0EYhc+8TO9w+2kCNqBGw6K6MCxdGVy4YWX4Be408R/4D/wHBBJ3rEzcKCaNiRBCUiB+RMFAClLQonBLYEG1d257Z+a+Dmd7kuc5R8zMbSkxlBktA0qRkE+gAp0kpVKZmZ3LnHOy8K85WS08uj9x7fqd1Qiv6w08mV382uW/zF3mhuWFI6YBo1IGA4lBdQhXKqBhpTa3ojRDmLssPiztyQg3FhrtnfOgOlJoNjf7Wksvzclc6/Cg9SPOyUsjORsXpRkX5xNlVsIyFaWfU6vVHj8YEUAMvJhfw9O55YM+c8a6F+8z1zWTt0gJdlmYz0tAa0e/5dWXS3+2DbUFOj2svPsifZq7u69Odjy0Z9F3ISUsqDL6M/aHisaFPCCZGmPJPZyaKgdh+/DotHOBZ7OLq3tnHs/W/WJ+/v4TWevu3h6FECACMDN9j1xp7PMx2g4dgQGw8a1LaZq+eVuPomRgsPyxtba+LvfVLa//vnIidW/MuIK6Sf00VUFgrM2H4bAKrLX/BRgAJbLbI5PzIF8AAAAASUVORK5CYII=');
+        }
+        .summary--balance{
+            text-align: right;
+        }
+        .summary--balance__now{
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .summary--balance__now-unit{
+            font-size: 14px;
+        }
+        .summary--balance__able{
+            margin-top: 10px;
+        }
+        .summary--balance__more{
+            display: inline-block;
+            width: 16px;
+            height: 12px;
+            margin-top: 16px;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAMCAIAAADkharWAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDYuMC1jMDA2IDc5LmRhYmFjYmIsIDIwMjEvMDQvMTQtMDA6Mzk6NDQgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCAyMi40IChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo1MkRENkU0NDQ1RTAxMUVEQjlDRUIyMjA3QzEzRDgxNyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo1MkRENkU0NTQ1RTAxMUVEQjlDRUIyMjA3QzEzRDgxNyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjUyREQ2RTQyNDVFMDExRURCOUNFQjIyMDdDMTNEODE3IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjUyREQ2RTQzNDVFMDExRURCOUNFQjIyMDdDMTNEODE3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+cyy4tgAAAhhJREFUeNockUtPFEEQx7t7unuevXGJC4bXYUVNcNmgEF+LeNQDRmNi4sGbV7+OFz+DhsSDMezJkxKFAFkgQsDHBFd3YF8zu7Mz3dNtr3WppOr/r1+lCq683hNExSDlipuUGoOMSWQlAgAwMC0OQV8kuq6QEpkwMcFEaanLOU4RptAmsp4X7RnaZIxtnaWhXUCmFaWAmp5JDdkLMIAQAAUhZI7TCkOihOu6S4uzxeIo/Pq7unOEXIcS3I2inOchCLGAGc6SUUqSqJE3jDyS926WL19xCAArS+O9XmvvZ4NKRpBtSwBIDuldtS+OYyklxnhh4fr8f/X65jeNfnL/6vTUlFKKuV4YhWnKjeKjl2Z2dg61xtXJg1szlXI+AeDV6uH6QUAzfHGSXbs0Evz41Wv5zKGxEkOCSchgEFcqd26UJvXUt6tfGkGggbVabX3rVAueP709OTGRJAnnHEmApBCV+cXluWntfvN+w++kB9I9sQt+l1U/1naPUw7As8flwlhqsmxI0LF8d1pv8u7DJ9/39RjPcYQQnutSSteqa/tHodbNlUpKSWP24QvBwebOab1tbRwETeX2gKmIgYZgFQnUAfjwb6eeuJ93j/scaaeihOg/bG1vW6aVYx5CUF8dDVvAtmzbtqIo2tvfb7bbUikMlZkYmT5q9/yF7/0UxsYYGxnvhAYHHdrXKeA5CQssY7aNQO/PPwEGAO4rA6O5+Wu0AAAAAElFTkSuQmCC');            
+        }
+        /*// 요약정보 */
+
+        /* 상세정보 */
+        .detail{
+            display: flex;
+            flex-wrap: wrap;
+            padding: 30px 18px;
+            background: #deeaf6;
+        }
+        .detail--tit,
+        .detail--cont{
+            width: 50%;
+            margin-bottom: 14px;
+        }
+        .detail--tit{
+
+        }
+        .detail--cont{
+            text-align: right;
+        }
+        .detail--cont.em{
+            color: #cc3333;
+        }
+        /*// 상세정보 */
+
+        /* 검색옵션 */
+        .search{
+            padding:24px 18px;
+        }
+        .search--btns{
+            display: flex;
+            justify-content: space-around;
+        }
+        .search--btn{
+            width: 23%;
+            margin:0 1%;
+            border-radius: 5px;
+            background: #f2f2f2;
+            line-height: 2em;
+            font-size: 16px;
+        }
+        .search--sorts{
+            margin-top: 24px;
+            color: #6998c2;
+        }
+        .search--sorts__sort{
+            display: inline-block;
+            padding: 0 14px;
+            border: 1px solid #cbd1cf;
+            border-radius: 12px;
+            line-height: 2em;
+        }
+        .search--sorts__info{
+            display: inline-block;
+            margin: 0 18px;
+            padding-right: 24px;
+            border-bottom: 1px solid #d2d2d2;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAICAIAAABGc1mbAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDYuMC1jMDA2IDc5LmRhYmFjYmIsIDIwMjEvMDQvMTQtMDA6Mzk6NDQgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCAyMi40IChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoxNUMxNUIzRDQ1RDkxMUVEQTI0RUY5QkI4MDcyMjU3RSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoxNUMxNUIzRTQ1RDkxMUVEQTI0RUY5QkI4MDcyMjU3RSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjE1QzE1QjNCNDVEOTExRURBMjRFRjlCQjgwNzIyNTdFIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjE1QzE1QjNDNDVEOTExRURBMjRFRjlCQjgwNzIyNTdFIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+7n3jiAAAAOlJREFUeNo8UMtugzAQNBC48L1wQKAG0R4ivoE/a0gaVS1QTiERxg+mQ5x2tFqt9zE7a6GASS4gVgv1CIBl2QJrrXsqxS74t/tS1/U03YW1YrdbH4iiiN73fWPMMAxVVQlCAl8/Y5bl0GozgGV6KVlB3/dZljlucTXQwPl8edu/yOnqdjlPvrIsSe+GBXOzBUV9nt4Pr3uSub5xHPM8n+dZa/1kZZq26V/V9+VUFAXDruuSJMEf3H2eXBF4AlqHIZV7x+NH0zRxHKdpGoYhN/BEtgZBIPgrzwWrsmY7pW1byviX6PQQvwIMAJikFjS4WeplAAAAAElFTkSuQmCC') 100% 50% no-repeat;
+            line-height: 2em;
+        }
+        .search--sorts__nums{
+            color: #000;
+        }
+        .search--sorts__view{
+            position: relative;
+            float: right;
+            display: inline-block;
+            padding: 0 8px 0 24px;
+            background: #939393;
+            border-radius: 12px;
+            line-height: 24px;
+            color: #fff;
+        }
+        .search--sorts__view::before{
+            position: absolute;
+            top: 50%;
+            left: 2px;
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #fff;
+            transform: translateY(-50%);
+        }
+        /*// 검색옵션 */
+
+        /* 입출금리스트 */
+        .balace-lists--date{
+            padding: 0 18px;
+            background: #f2f2f2;
+            font-size: 16px;
+            line-height: 2em;
+        }
+        .balace-lists--detail{
+            position: relative;
+            display: flex;
+            padding: 20px 18px;
+            border-bottom: 1px solid #e9e9e9;
+        }
+        .balace-lists--detail-left,
+        .balace-lists--detail-right{
+            width: 50%;
+        }
+        .balace-lists--detail-left .time{
+            color: #7d7d7d;
+            font-size: 16px;
+        }
+        .balace-lists--detail-left .memo{
+            margin-top: 10px;
+            color: #333;
+            font-size: 16px;
+        }
+        .balace-lists--detail-right{
+            margin-right: 16px;
+            text-align: right;
+            color: #548bce;
+        }
+        .balace-lists--detail-right .statements{
+            font-size: 16px;
+        }
+        .balace-lists--detail-right .nums{
+            margin-top: 4px;
+            font-size: 22px;
+            letter-spacing: -0.02em;
+        }
+        .balace-lists--detail-more{
+            position: absolute;
+            top: 24px;
+            right: 18px;
+            width: 4px;
+            height: 16px;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAQCAIAAAC+1EmkAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDYuMC1jMDA2IDc5LmRhYmFjYmIsIDIwMjEvMDQvMTQtMDA6Mzk6NDQgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCAyMi40IChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBODVGMjAzMDQ1RTAxMUVEOTk4RUUzN0QxMjBEOUY4QiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBODVGMjAzMTQ1RTAxMUVEOTk4RUUzN0QxMjBEOUY4QiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkE4NUYyMDJFNDVFMDExRUQ5OThFRTM3RDEyMEQ5RjhCIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkE4NUYyMDJGNDVFMDExRUQ5OThFRTM3RDEyMEQ5RjhCIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+ukq2dwAAAKtJREFUeNo0TjsKhTAQ3OyzsYp6gFzAO3gTrxgEGxtbO0GwSJHCxi5dGn8kvgmPt7AwzOzMrAghvO/LzEIIPs9zHMd1XUFlwzBs22atLcuSvfd5noO+75uO4+i6bp5nmAn7PA8UAI4xIoeIEJgZY6ZpAmrb9lPXNRQUFEXBTdPAI6VUSqW03xMYgaX/MJS+75dlua4rA3LO7fteVVVScIC29A5UrTWqYP4KMAB57XwCj66oZwAAAABJRU5ErkJggg==');
+        }
+        /*// 입출금리스트 */
+    </style>
+</head>
+<body>
+    <!--타이틀-->
+    <section class="title">
+        <h1 class="title--tit">계좌상세조회</h1>
+        <i class="title--close"></i>
+    </section>
+    <!--//타이틀-->
+
+    <!--요약정보-->
+    <section class="summary">
+        <h1 class="summary--tit">브라보 마이너스통장대출</h1>
+        <div class="summary--info">
+            <span class="summary--info__statements">입출금</span>
+            <span class="summary--info__nums">110-604-395342</span>    
+        </div>
+        <button class="summary--mklink">+ MY링크 만들기</button>
+        <i class="summary--more"></i>
+
+        <div class="summary--balance">
+            <div class="summary--balance__now">-41,562,360<span class="summary--balance__now-unit">원</span></div>
+            <div class="summary--balance__able">출금가능금액 5,437,640원</div> 
+            <span class="summary--balance__more"></span>
+        </div>
+    </section>
+    <!--//요약정보-->
+
+    <!--상세정보-->
+    <dl class="detail">
+        <dt class="detail--tit">신규일자</dt>
+        <dd class="detail--cont">2018.02.08</dd>
+        <dt class="detail--tit">대출승인액</dt>
+        <dd class="detail--cont">47,000,000원</dd>
+        <dt class="detail--tit">대츌이율</dt>
+        <dd class="detail--cont em">6.53%</dd>
+        <dt class="detail--tit">대출만기일</dt>
+        <dd class="detail--cont">2023.02.10</dd>
+        <dt class="detail--tit">수표/어음금액</dt>
+        <dd class="detail--cont">0원</dd>
+        <dt class="detail--tit">계좌관리점</dt>
+        <dd class="detail--cont">중원역점</dd>
+    </dl>
+    <!--//상세정보-->
+
+    <!--검색옵션-->
+    <section class="search">
+        <div class="search--btns">
+            <button class="search--btn">1주일</button>
+            <button class="search--btn">1개월</button>
+            <button class="search--btn">6개월</button>
+            <button class="search--btn">상세조회</button>
+        </div>
+
+        <div class="search--sorts">
+            <span class="search--sorts__sort">최신순</span>
+            <span class="search--sorts__info">입금 + 출금</span>
+            <span class="search--sorts__nums">[최근 10건]</span>
+    
+            <span class="search--sorts__view">잔액</span>
+        </div>
+    </section>
+    <!--//검색옵션-->
+
+    <!-- 입출금리스트 -->
+    <section class="balace">
+        <article class="balace-lists">
+            <h2 class="balace-lists--date">2022.04.08</h2>
+            <div class="balace-lists--detail">
+                <div class="balace-lists--detail-left">
+                    <div class="time">
+                        12:45:02 ATM출금
+                    </div>
+                    <div class="memo">
+                        김윤범
+                    </div>
+                </div>
+
+                <div class="balace-lists--detail-right">
+                    <div class="statements">
+                        출금
+                    </div>
+                    <div class="nums">
+                        12,500,000원
+                    </div>
+                </div>
+
+                <i class="balace-lists--detail-more"></i>
+            </div>    
+        </article>
+        <article class="balace-lists">
+            <h2 class="balace-lists--date">2022.02.04</h2>
+            <div class="balace-lists--detail">
+                <div class="balace-lists--detail-left">
+                    <div class="time">
+                        14:22:09 ATM출금
+                    </div>
+                    <div class="memo">
+                        김윤범
+                    </div>    
+                </div>
+
+                <div class="balace-lists--detail-right">
+                    <div class="statements">
+                        출금
+                    </div>
+                    <div class="nums">
+                        8,000,000원
+                    </div>
+                </div>
+
+                <i class="balace-lists--detail-more"></i>
+            </div>    
+        </article>        
+    </section>
+    <!--// 입출금리스트 -->
+</body>
+</html>  
