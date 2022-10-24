@@ -1,0 +1,78 @@
+(function run() {
+    try {
+        var LOG = {
+            STATIC: 'V800',
+            STATIC_FOCUS: 'V810',
+            ACTIVATE: 'V810',
+            ACTIVEATE_FOCUS: 'V810'
+        };
+        var PARAMS = [
+            'eu=EU10043151&calp=-&oj=Gdl%2FoFAYTRnwQCUu%2BwmpARfIqaEJZSeQV84F0u4WDSMdH8bWaFWM45%2FQKRloyB5Cak8U1Qq8SSCOdFiJWfvjC%2Bui0b3w1x6mJX4P8EGN7yx%2BxxeAWmk1%2BFkdGXzXaVb3&ac=8524851&src=5714239&evtcd=P100&x_ti=1434&tb=&oid=&sid1=&sid2=&rk=0a20a8ddad603db29de838f01e1d6e9f&eltts=9aOKa7RPFaa6FXAiD%2Fjb7g%3D%3D&brs=Y&',
+            'eu=EU10043151&calp=-&oj=Gdl%2FoFAYTRnwQCUu%2BwmpARfIqaEJZSeQV84F0u4WDSMdH8bWaFWM45%2FQKRloyB5Cak8U1Qq8SSCOdFiJWfvjC%2Bui0b3w1x6mJX4P8EGN7yx%2BxxeAWmk1%2BFkdGXzXaVb3&ac=8524851&src=5714240&evtcd=C1073&x_ti=1434&tb=&oid=&sid1=&sid2=&rk=0a20a8ddad603db29de838f01e1d6e9f&eltts=9aOKa7RPFaa6FXAiD%2Fjb7g%3D%3D&brs=Y&',
+            'eu=EU10043151&calp=-&oj=Gdl%2FoFAYTRnwQCUu%2BwmpARfIqaEJZSeQV84F0u4WDSMdH8bWaFWM45%2FQKRloyB5Cak8U1Qq8SSCOdFiJWfvjC%2Bui0b3w1x6mJX4P8EGN7yx%2BxxeAWmk1%2BFkdGXzXaVb3&ac=8524851&src=5714241&evtcd=FOCUS_IMP&x_ti=1434&tb=&oid=&sid1=&sid2=&rk=0a20a8ddad603db29de838f01e1d6e9f&eltts=9aOKa7RPFaa6FXAiD%2Fjb7g%3D%3D&brs=Y&',
+            'eu=EU10043151&calp=-&oj=Gdl%2FoFAYTRnwQCUu%2BwmpARfIqaEJZSeQV84F0u4WDSMdH8bWaFWM45%2FQKRloyB5Cak8U1Qq8SSCOdFiJWfvjC%2Bui0b3w1x6mJX4P8EGN7yx%2BxxeAWmk1%2BFkdGXzXaVb3&ac=8524851&src=5714242&evtcd=FOCUS_VIEW&x_ti=1434&tb=&oid=&sid1=&sid2=&rk=0a20a8ddad603db29de838f01e1d6e9f&eltts=9aOKa7RPFaa6FXAiD%2Fjb7g%3D%3D&brs=Y&'
+        ];
+        var naver_corp_da = window.naver_corp_da || {};
+        var util = naver_corp_da.Util ? new naver_corp_da.Util() : new NBP_CORP.Nimp();
+        var observer;
+        var target;
+        var timer;
+
+        try {
+            initAd();
+        } catch(e) {
+            console.log(e);
+        }
+
+        function initAd() {
+            log(LOG.STATIC, 0);
+            focusLog(LOG.STATIC_FOCUS, 2);
+
+            activeView();
+        }
+
+        function activeView() {
+            target = document.getElementById('veta_branding') || document.getElementById(''.trim());
+            observer =  new IntersectionObserver(onActiveView, {
+                threshold: 1
+            });
+
+            observer.observe(target);
+        }
+
+        function onActiveView(entries) {
+            if (entries.length) {
+                setEntryTimer(entries[0].isIntersecting);
+            }
+        }
+
+        function setEntryTimer(enable) {
+            clearTimeout(timer);
+
+            if (enable) {
+                timer = setTimeout(setActiveView, 0);
+            }
+        }
+
+        function setActiveView() {
+            log(LOG.ACTIVATE, 1);
+            focusLog(LOG.ACTIVEATE_FOCUS, 3);
+
+            observer.unobserve(target);
+        }
+
+        function log(code, idx) {
+            idx = idx || 0;
+
+            if (code) {
+                util.log('https://siape.veta.naver.com/fxview?' + PARAMS[idx] + '&eid=' + code);
+            }
+        }
+
+        function focusLog(code, idx) {
+            if (document.hasFocus()) {
+                log(code, idx);
+            }
+        }
+    } catch(e) {}
+})();
