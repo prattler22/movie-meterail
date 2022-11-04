@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCTV</title>
+    <link rel="stylesheet" href="./resource-cctv/css.css">
+    <link rel="stylesheet" href="./resource-cctv/jquery-ui.multidatespicker.css">
+   
+    <script src="./resource-cctv/jquery-3.6.0.js"></script>
+    <script src="./resource-cctv/jquery-ui.js"></script>    
+    <script src="./resource-cctv/jquery-ui.multidatespicker.js"></script>
+    <script>
+        $( function() {
+            $('#mdp-demo').multiDatesPicker({
+                dateFormat: "y-m-d",
+                defaultDate:"22-9-16",
+                maxPicks: 2
+            });
+
+            $(".gnb-men__search").click(function(){
+                $("#lay-pop_cal").fadeIn();
+                
+            });
+        } );
+        </script>    
+</head>
+<body>
+    <header class="title">
+        <h1 class="title--txt">코넬리아 타운 박재호</h1>
+        <a class="title--back" href="#">뒤로</a>
+        <a class="title--menu" href="#">메뉴</a>
+    </header>
+
+    <section class="view-movie">
+
+    </section>
+
+    <nav class="gnb">
+        <ul class="gnb-menu">
+            <li class="gnb-men__layout">레이아웃</li>
+            <li class="gnb-men__search">검색</li>
+            <li class="gnb-men__audio">오디오</li>
+            <li class="gnb-men__alim">알림</li>
+        </ul>
+    </nav>   
+
+    <div id="lay-pop_cal">
+        <div id="mdp-demo"></div>
+        <a class="lay-pop_cal--btn" href="./cctv-record-list.html">저장기록</a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+    box-sizing: border-box;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+html,
+body{
+    height: 100%;
+}
+
+body{
+    background-color: #000;
+}
+.title{
+    position: relative;
+    background-color: gray;
+    background: linear-gradient(180deg, rgba(100,100,100,1) 0%, rgba(255,255,255,0.5) 50%, rgba(100,100,100,1) 100%);
+}
+.title--txt{
+    font-size: 24px;
+    line-height: 48px;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+}
+.title--back{
+    position: absolute;
+    top:50%;
+    left:12px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+    margin-top: -12px;
+    background: url(./icn-cctv_go-back.png) no-repeat;
+    background-size: 100%;
+    text-indent: -999px;
+}
+.title--menu{
+    position: absolute;
+    top:50%;
+    right:12px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+    margin-top: -12px;
+    background: url(./icn-cctv_dot-menu.png) no-repeat;
+    background-size: 100%;
+    text-indent: -999px;
+}
+
+.view-movie{
+    position: absolute;
+    top:50%;
+    z-index: -1;
+    width: 100%;
+    height: 50%;
+    background-color: #0f0;
+    transform: translateY(-50%);
+}
+
+.gnb{
+    position: fixed;
+    bottom: 0;
+    left:0;
+    width: 100%;
+    background-color: gray;
+    background: linear-gradient(180deg, rgba(100,100,100,1) 0%, rgba(255,255,255,0.5) 50%, rgba(100,100,100,1) 100%);
+}
+.gnb-menu{
+    display: flex;
+}
+.gnb-menu li{
+    width: 25%;
+    margin:12px 0;
+    text-align: center;
+    color: #fff;
+}
+.gnb-menu li::before{
+    content: '';
+    display: block;
+    width: 24px;
+    height : 24px;
+    margin:0 auto 6px;
+    background: 50% 0 no-repeat;
+    background-size: 100%;
+}
+li.gnb-men__layout::before{
+    background-image: url(./icn-cctv_layout.png);
+}
+li.gnb-men__search::before{
+    background-image: url(./icn-cctv_search.png);
+}
+li.gnb-men__audio::before{
+    background-image: url(./icn-cctv_audio.png);
+}
+li.gnb-men__alim::before{
+    background-image: url(./icn-cctv_alim.png);
+}
+            
+#lay-pop_cal{
+    display: none;
+    position: fixed;
+    left:0;
+    bottom: 0;
+    width: 100%;
+    /* z-index: 100; */
+}
+.lay-pop_cal--btn{
+    display: block;
+    border-top:1px solid #ccc;
+    background-color: #f6f6f6;
+    font-size: 16px;
+    line-height: 48px;
+    text-align: center;
+    color: #333;
+    text-decoration: none;
+}
+
+.movie-list a{
+    display: block;
+    padding: 20px 0 20px 48px;
+    border-bottom: 2px solid #ddd;
+    background:url(./icn-cctv_go-forward.png) 16px 54% no-repeat;
+    background-size: 16px;
+    font-size: 18px;
+    color: #fff;
+    text-decoration: none;
+}
+/* .movie-list a::before{
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 16px;
+    background: url(./icn-cctv_go-forward.png);
+    background-size: 100%;
+} */
+
+.no-record{
+    margin:2em 1em;
+    padding-top: 220px;
+    background: url(./icn-cctv-movie.png) 50% 0 no-repeat;
+    background-size: 180px;
+    text-align: center;
+    font-size: 1.5em;
+    color: #fff;
+}
